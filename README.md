@@ -1,115 +1,51 @@
-<p align="center">
-  <a href="https://github.com/actions/typescript-action/actions"><img alt="typescript-action status" src="https://github.com/actions/typescript-action/workflows/build-test/badge.svg"></a>
-</p>
+# Push changes on your repository
 
-# Create an Action using Golang
+Use this action to push changes done by other actions to the upstream repository
 
-Use this template to bootstrap the creation of a Golang action.:rocket:
+## Inputs
 
-This template includes compiliation support, tests, a validation workflow, publishing, and versioning guidance.  
+### `author-email`
 
-## Create an action from this template
+The email that will appear in commits when changes needs to be committed.
 
-Click the `Use this Template` and provide the new repo details for your action
+### `author-name`
 
-## Code in Master
+The name that will appear in commits when changes needs to be committed.
 
-Install the dependencies  
-```bash
-$ go mod download
-```
+### `create-commit`
 
-Build the code
-```bash
-$ go build
-```
+Instructs to create a commit with changed files.
 
-Run the tests :heavy_check_mark:  
-```bash
-$ go test -v ./...
+### `commit-message`
 
-  === RUN   TestRunMain
-  --- PASS: TestRunMain (0.01s)
-  PASS
-  ok      github.com/actions-go/go-action    0.315s
+The commit message used when changes needs to be committed.
 
-...
-```
+### `ref`
 
-Commit the pre-built binaries to `./dist/main_linux`, `./dist/main_darwin` and `./dist/main_windows.exe` for respectively linux, mac OS and windows actions.
+The name of the local reference to push.
 
-## Change action.yml
+### `remote`
 
-The action.yml contains defines the inputs and output for your action.
+The name of the remote on which to push the changes. Defaults to the tracked remote
 
-Update the action.yml with your name, description, inputs and outputs for your action.
+### `remote-ref`
 
-See the [documentation](https://help.github.com/en/articles/metadata-syntax-for-github-actions)
+The name of the remote reference to pushto. Defaults to the tracked remote branch.
 
-<!---
-## Change the Code
+### `fail-if-empty`
 
-Most toolkit and CI/CD operations involve async operations so the action is run in an async function.
+Fail the action in case there is nothing to do.
 
-```javascript
-import * as core from '@actions/core';
-...
+## Outputs
 
-async function run() {
-  try { 
-      ...
-  } 
-  catch (error) {
-    core.setFailed(error.message);
-  }
-}
+### `empty`
 
-run()
-```
+TRUE when the action did not perform anything.
 
-See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/README.md#packages) for the various packages.
 
--->
+## Example usage
 
-## Publish to a distribution branch
-
-Actions are run from GitHub repos.  We will create a releases branch and only checkin production modules (core in this case). 
-
-```bash
-$ git checkout -b releases/v1
-$ git commit -a -m "prod dependencies"
-```
-
-```bash
-$ git commit -a -m "prod dependencies"
-$ git push origin releases/v1
-```
-
-Your action is now published! :rocket: 
-
-See the [versioning documentation](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
-
-<!--
-## Validate
-
-You can now validate the action by referencing the releases/v1 branch
-
-```yaml
-uses: actions/typescript-action@releases/v1
+uses: actions-go/push@master
 with:
-  milliseconds: 1000
-```
-
-See the [actions tab](https://github.com/actions/javascript-action/actions) for runs of this action! :rocket:
-
--->
-
-## Usage:
-
-After testing you can [create a v1 tag](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md) to reference the stable and tested action
-
-```yaml
-uses: actions-go/go-action@master
-with:
-  milliseconds: 1000
-```
+  commit-message: '[Auto] update pre-puilt dist packages'
+  remote: origin

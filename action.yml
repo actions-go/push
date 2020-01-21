@@ -1,10 +1,40 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Push changes'
+description: 'Optionnally creates a new commit and pushes changes'
+author: 'actions-go'
 inputs:
-  myInput:              # change this
-    description: 'input description here'
-    default: 'default value if applicable'
+  author-email:
+    description: 'The email that will appear in commits when changes needs to be committed'
+    default: actions-go@users.noreply.github.com
+  author-name:
+    description: 'The name that will appear in commits when changes needs to be committed'
+    default: ActionsGo Bot
+  create-commit:
+    description: 'Instructs to create a commit with changed files'
+    default: true
+  commit-files:
+    description: 'A coma separated list of files to add to commit in addition to already staged ones. If not provided, all tracked files are committed.'
+  commit-message:
+    description: 'The commit message used when changes needs to be committed'
+  ref:
+    description: 'The name of the local reference to push.'
+    default: HEAD
+  remote:
+    description: 'The name of the remote on which to push the changes. Defaults to the tracked remote'
+  remote-ref:
+    description: 'The name of the remote reference to pushto. Defaults to the tracked remote branch.'
+  fail-if-empty:
+    description: 'Fail the action in case there is nothing to do.'
+    default: false
+  token:
+    description: >
+      Auth token used to fetch the repository. The token is stored in the local
+      git config, which enables your scripts to run authenticated git commands.
+      The post-job step removes the token from the git config. [Learn more about
+      creating and using encrypted secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)
+    default: ${{ github.token }}
+outputs:
+  empty:
+    description: 'TRUE when the action did not perform anything'
 runs:
   using: 'node12'
   main: 'dist/index.js'
