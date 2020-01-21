@@ -45,7 +45,10 @@ TRUE when the action did not perform anything.
 
 ## Example usage
 
+
+```yaml
 uses: actions-go/push@master
 with:
   commit-message: '[Auto] update pre-puilt dist packages'
   remote: origin
+```
