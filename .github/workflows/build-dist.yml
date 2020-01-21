@@ -49,5 +49,6 @@ jobs:
          mv main-windows-latest/main dist/main_windows.exe
          mv main-macos-latest/main dist/main_darwin
          mv main-ubuntu-latest/main dist/main_linux
+         git add dist
          chmod +x dist/main_*
          dist/main_linux
