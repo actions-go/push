@@ -28,6 +28,10 @@ func runGit(t *testing.T, args ...string) {
 	assert.NoError(t, cmd.Run())
 }
 
+func runCommit(t *testing.T, workdir, message string) {
+	runGit(t, "-C", workdir, "commit", "--allow-empty", "--author", "ActionsGo test <actions-go@users.noreply.github.com>", "-m", message)
+}
+
 func status(t *testing.T, workdir string) string {
 	b := bytes.NewBuffer(nil)
 	cmd := exec.Command("git", "-C", workdir, "status", "-s")
@@ -46,7 +50,9 @@ func TestCommit(t *testing.T) {
 	defer os.RemoveAll(workdir)
 	assert.NoError(t, os.Chdir(workdir))
 	runGit(t, "init", workdir)
-	runGit(t, "-C", workdir, "commit", "--allow-empty", "--author", "ActionsGo test <actions-go@users.noreply.github.com>", "-m", "first commit")
+	runGit(t, "-C", workdir, "config", "user.email", "actions-go@users.noreply.github.com")
+	runGit(t, "-C", workdir, "config", "user.name", "ActionsGo test")
+	runCommit(t, workdir, "first commit")
 	writeTestFile(t, workdir, "README.md", "version 1")
 	runGit(t, "-C", workdir, "add", "README.md")
 
@@ -90,10 +96,12 @@ func TestPush(t *testing.T) {
 	defer os.RemoveAll(workdir)
 	assert.NoError(t, os.Chdir(workdir))
 	runGit(t, "init", workdir)
-	runGit(t, "-C", workdir, "commit", "--allow-empty", "--author", "ActionsGo test <actions-go@users.noreply.github.com>", "-m", "first commit")
+	runGit(t, "-C", workdir, "config", "user.email", "actions-go@users.noreply.github.com")
+	runGit(t, "-C", workdir, "config", "user.name", "ActionsGo test")
+	runCommit(t, workdir, "first commit")
 	runGit(t, "-C", workdir, "remote", "add", "some-remote", remote)
 	runGit(t, "-C", workdir, "push", "-u", "some-remote", "master")
-	runGit(t, "-C", workdir, "commit", "--allow-empty", "--author", "ActionsGo test <actions-go@users.noreply.github.com>", "-m", "second commit")
+	runCommit(t, workdir, "first commit")
 
 	repo, err := git.PlainOpen(workdir)
 	assert.NoError(t, err)

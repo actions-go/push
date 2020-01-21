@@ -31,6 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
+      - uses: actions/checkout@v2
       - uses: actions/download-artifact@v1
         with:
           name: main-ubuntu-latest
@@ -43,4 +44,10 @@ jobs:
       - uses: actions/download-artifact@v1
         with:
           name: main-windows-latest
-      - uses: actions-go/update@v1
+      - run: |
+         mkdir -p dist
+         mv main-windows-latest/main dist/main_windows.exe
+         mv main-macos-latest/main dist/main_darwin
+         mv main-ubuntu-latest/main dist/main_linux
+         chmod +x dist/main_*
+         dist/main_linux
