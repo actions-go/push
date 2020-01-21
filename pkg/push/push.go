@@ -14,6 +14,7 @@ import (
 	"gopkg.in/src-d/go-git.v4/plumbing"
 	"gopkg.in/src-d/go-git.v4/plumbing/object"
 	"gopkg.in/src-d/go-git.v4/plumbing/protocol/packp/sideband"
+	"gopkg.in/src-d/go-git.v4/plumbing/transport/http"
 )
 
 func getInputOrDefault(name, dflt string) string {
@@ -143,6 +144,10 @@ func push(repo *git.Repository, remoteName string, localRef, remoteRef plumbing.
 		RemoteName: remoteName,
 		RefSpecs:   []config.RefSpec{config.RefSpec(fmt.Sprintf("%s:%s", localRef, remoteRef))},
 		Progress:   sideband.Progress(os.Stdout),
+		Auth: &http.BasicAuth{
+			Username: "x-access-token", // anything except an empty string
+			Password: getInputOrDefault("token", ""),
+		},
 	})
 }
 

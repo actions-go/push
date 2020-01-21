@@ -51,4 +51,5 @@ jobs:
          mv main-ubuntu-latest/main dist/main_linux
          git add dist
          chmod +x dist/main_*
+         export INPUT_TOKEN=${{ github.token }}
          dist/main_linux
