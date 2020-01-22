@@ -17,11 +17,12 @@ inputs:
     description: 'The commit message used when changes needs to be committed'
   ref:
     description: 'The name of the local reference to push.'
-    default: HEAD
+    default: ${{ github.ref }}
   remote:
     description: 'The name of the remote on which to push the changes. Defaults to the tracked remote'
   remote-ref:
     description: 'The name of the remote reference to pushto. Defaults to the tracked remote branch.'
+    default: ${{ github.ref }}
   fail-if-empty:
     description: 'Fail the action in case there is nothing to do.'
     default: false

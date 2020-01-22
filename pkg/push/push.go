@@ -168,8 +168,8 @@ func Push(root string) error {
 	remoteName := getInputOrDefault("remote", branch.Remote)
 	remoteRefName := getInputOrDefault("remote-ref", branch.Merge.String())
 
-	failIfEmpty := getInputOrDefault("fail-if-empty", "FALSE")
-	createCommit := getInputOrDefault("create-commit", "TRUE")
+	failIfEmpty := strings.ToUpper(getInputOrDefault("fail-if-empty", "FALSE"))
+	createCommit := strings.ToUpper(getInputOrDefault("create-commit", "TRUE"))
 	commitMessage := getInputOrDefault("commit-message", fmt.Sprintf("[Auto] Update generated from github workflow %s/%s", github.Context.Workflow, github.Context.Action))
 
 	if createCommit == "TRUE" {
