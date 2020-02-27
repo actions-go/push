@@ -2,6 +2,9 @@ name: 'Push changes'
 description: 'Optionnally creates a new commit and pushes changes'
 author: 'actions-go'
 inputs:
+  force:
+    description: 'Override the existing remote branch if it already exist'
+    default: false
   author-email:
     description: 'The email that will appear in commits when changes needs to be committed'
     default: actions-go@users.noreply.github.com
