@@ -1,6 +1,9 @@
 name: 'Push changes'
 description: 'Optionnally creates a new commit and pushes changes'
 author: 'actions-go'
+branding:
+  icon: git-commit
+  color: green
 inputs:
   force:
     description: 'Override the existing remote branch if it already exist'
