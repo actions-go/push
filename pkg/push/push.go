@@ -119,7 +119,15 @@ func refName(name string) plumbing.ReferenceName {
 	return plumbing.ReferenceName(name)
 }
 
-func push(repo *git.Repository, remoteName string, localRef, remoteRef plumbing.ReferenceName, failIfEmpty string) error {
+func refSpec(localRef, remoteRef, force string) string {
+	refspec := fmt.Sprintf("%s:%s", localRef, remoteRef)
+	if force == "TRUE" {
+		refspec = "+" + refspec
+	}
+	return refspec
+}
+
+func push(repo *git.Repository, remoteName string, localRef, remoteRef plumbing.ReferenceName, failIfEmpty, force string) error {
 	_, err := repo.Remote(remoteName)
 	if err != nil {
 		return err
@@ -142,7 +150,7 @@ func push(repo *git.Repository, remoteName string, localRef, remoteRef plumbing.
 	core.Debugf("pushing ref %s to %s/%s", localRef, remoteName, remoteRef)
 	return repo.Push(&git.PushOptions{
 		RemoteName: remoteName,
-		RefSpecs:   []config.RefSpec{config.RefSpec(fmt.Sprintf("%s:%s", localRef, remoteRef))},
+		RefSpecs:   []config.RefSpec{config.RefSpec(refSpec(localRef.String(), remoteRef.String(), force))},
 		Progress:   sideband.Progress(os.Stdout),
 		Auth: &http.BasicAuth{
 			Username: "x-access-token", // anything except an empty string
@@ -169,6 +177,7 @@ func Push(root string) error {
 	remoteRefName := getInputOrDefault("remote-ref", branch.Merge.String())
 
 	failIfEmpty := strings.ToUpper(getInputOrDefault("fail-if-empty", "FALSE"))
+	force := strings.ToUpper(getInputOrDefault("force", "FALSE"))
 	createCommit := strings.ToUpper(getInputOrDefault("create-commit", "TRUE"))
 	commitMessage := getInputOrDefault("commit-message", fmt.Sprintf("[Auto] Update generated from github workflow %s/%s", github.Context.Workflow, github.Context.Action))
 
@@ -177,5 +186,5 @@ func Push(root string) error {
 			return err
 		}
 	}
-	return push(repo, remoteName, ref.Name(), plumbing.ReferenceName(remoteRefName), failIfEmpty)
+	return push(repo, remoteName, ref.Name(), plumbing.ReferenceName(remoteRefName), failIfEmpty, force)
 }

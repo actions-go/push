@@ -106,11 +106,15 @@ func TestPush(t *testing.T) {
 	repo, err := git.PlainOpen(workdir)
 	assert.NoError(t, err)
 
-	assert.Error(t, push(repo, "non-existing-remote", plumbing.ReferenceName("refs/heads/master"), plumbing.ReferenceName("refs/heads/master"), "FALSE"))
-	assert.NoError(t, push(repo, "some-remote", plumbing.ReferenceName("refs/heads/master"), plumbing.ReferenceName("refs/heads/master"), "FALSE"))
-	assert.NoError(t, push(repo, "some-remote", plumbing.ReferenceName("refs/heads/master"), plumbing.ReferenceName("refs/heads/master"), "FALSE"))
-	assert.Error(t, push(repo, "some-remote", plumbing.ReferenceName("refs/heads/master"), plumbing.ReferenceName("refs/heads/master"), "TRUE"))
+	assert.Error(t, push(repo, "non-existing-remote", plumbing.ReferenceName("refs/heads/master"), plumbing.ReferenceName("refs/heads/master"), "FALSE", "FALSE"))
+	assert.NoError(t, push(repo, "some-remote", plumbing.ReferenceName("refs/heads/master"), plumbing.ReferenceName("refs/heads/master"), "FALSE", "FALSE"))
+	assert.NoError(t, push(repo, "some-remote", plumbing.ReferenceName("refs/heads/master"), plumbing.ReferenceName("refs/heads/master"), "FALSE", "FALSE"))
+	assert.Error(t, push(repo, "some-remote", plumbing.ReferenceName("refs/heads/master"), plumbing.ReferenceName("refs/heads/master"), "TRUE", "FALSE"))
 
 	runGit(t, "-C", workdir, "remote", "add", "origin", remote)
 	assert.NoError(t, Push(workdir))
+
+	runGit(t, "-C", workdir, "commit", "--allow-empty", "--amend", "--no-edit", "--author", "ActionsGo test <actions-go@users.noreply.github.com>", "-m", "overriding commit message")
+	assert.Error(t, push(repo, "some-remote", plumbing.ReferenceName("refs/heads/master"), plumbing.ReferenceName("refs/heads/master"), "FALSE", "FALSE"))
+	assert.NoError(t, push(repo, "some-remote", plumbing.ReferenceName("refs/heads/master"), plumbing.ReferenceName("refs/heads/master"), "FALSE", "TRUE"))
 }
