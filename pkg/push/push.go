@@ -104,7 +104,7 @@ func commit(repo *git.Repository, patterns, commitMessage, failIfEmpty string) e
 		_, err := wt.Commit(commitMessage, &git.CommitOptions{
 			Author: &object.Signature{
 				Name:  getInputOrDefault("author-name", "ActionsGo Bot"),
-				Email: getInputOrDefault("author-name", "actions-go@users.noreply.github.com"),
+				Email: getInputOrDefault("author-email", "actions-go@users.noreply.github.com"),
 				When:  time.Now(),
 			},
 		})

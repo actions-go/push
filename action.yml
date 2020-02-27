@@ -21,6 +21,7 @@ inputs:
     description: 'A coma separated list of files to add to commit in addition to already staged ones. If not provided, all tracked files are committed.'
   commit-message:
     description: 'The commit message used when changes needs to be committed'
+    required: true
   ref:
     description: 'The name of the local reference to push.'
     default: ${{ github.ref }}
