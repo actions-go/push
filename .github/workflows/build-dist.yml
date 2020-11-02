@@ -26,6 +26,25 @@ jobs:
         with:
           name: main-${{ matrix.runs-on }}
           path: dist/main
+      - if: ${{ runner.os == 'Linux' }}
+        run: |
+          cp dist/main dist/main_linux
+      - if: ${{ runner.os == 'Windows' }}
+        run: |
+          cp dist/main dist/main_windows.exe
+      - if: ${{ runner.os == 'macOS' }}
+        run: |
+          cp dist/main dist/main_darwin
+      - uses: ./
+        with:
+          create-commit: true
+          commit-files: dist/main*
+          commit-message: test-commit
+          remote: origin
+          remote-ref: refs/heads/test/${{ matrix.runs-on }}/${{ github.sha }}/${{ github.event_name }}
+          fail-if-empty: true
+      - run: git push origin :refs/heads/test/${{ matrix.runs-on }}/${{ github.sha }}/${{ github.event_name }}
+          
   publish:
     name: Publish new action version
     runs-on: ubuntu-latest

@@ -81,6 +81,7 @@ func commit(repo *git.Repository, patterns, commitMessage, failIfEmpty string) e
 			}
 		}
 	}
+	core.Debugf("getting worktree status")
 	status, err = wt.Status()
 	if err != nil {
 		return err
