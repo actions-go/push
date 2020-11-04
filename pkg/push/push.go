@@ -65,7 +65,7 @@ func commit(repo *git.Repository, patterns, commitMessage, failIfEmpty string) e
 		case git.Untracked:
 			if matchAny(path, paths) {
 				core.Debugf("adding %s to index", path)
-				_, err := wt.Add(path)
+				err := gitadd(wt, path)
 				if err != nil {
 					return err
 				}
@@ -74,7 +74,7 @@ func commit(repo *git.Repository, patterns, commitMessage, failIfEmpty string) e
 		default:
 			if len(paths) == 0 || matchAny(path, paths) {
 				core.Debugf("adding %s to index", path)
-				_, err := wt.Add(path)
+				err := gitadd(wt, path)
 				if err != nil {
 					return err
 				}
@@ -101,7 +101,8 @@ func commit(repo *git.Repository, patterns, commitMessage, failIfEmpty string) e
 			return fmt.Errorf(msg)
 		}
 	} else {
-		_, err := wt.Commit(commitMessage, &git.CommitOptions{
+		core.Debugf("committing changes")
+		err := gitcommit(wt, commitMessage, &git.CommitOptions{
 			Author: &object.Signature{
 				Name:  getInputOrDefault("author-name", "ActionsGo Bot"),
 				Email: getInputOrDefault("author-email", "actions-go@users.noreply.github.com"),
