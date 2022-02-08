@@ -6,7 +6,7 @@ require (
 	github.com/actions-go/toolkit v0.0.0-20200119151346-09edac1c7d93
 	github.com/go-git/go-git/v5 v5.2.0
 	github.com/google/uuid v1.3.0
-	github.com/stretchr/testify v1.4.0
+	github.com/stretchr/testify v1.7.0
 )
 
 require (
@@ -30,5 +30,5 @@ require (
 	golang.org/x/sys v0.0.0-20200302150141-5c8b2ff67527 // indirect
 	google.golang.org/appengine v1.4.0 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
-	gopkg.in/yaml.v2 v2.2.4 // indirect
+	gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c // indirect
 )
