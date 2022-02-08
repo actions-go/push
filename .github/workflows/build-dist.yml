@@ -54,15 +54,15 @@ jobs:
       - uses: actions/download-artifact@v2.1.0
         with:
           name: main-ubuntu-latest
+          path: main-ubuntu-latest
       - uses: actions/download-artifact@v2.1.0
         with:
           name: main-macos-latest
+          path: main-macos-latest
       - uses: actions/download-artifact@v2.1.0
         with:
           name: main-windows-latest
-      - uses: actions/download-artifact@v2.1.0
-        with:
-          name: main-windows-latest
+          path: main-windows-latest
       - run: |
          mkdir -p dist
          mv main-windows-latest/main dist/main_windows.exe
