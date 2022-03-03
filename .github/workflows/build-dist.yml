@@ -51,15 +51,15 @@ jobs:
     needs: [build]
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2.1.0
+      - uses: actions/download-artifact@v3
         with:
           name: main-ubuntu-latest
           path: main-ubuntu-latest
-      - uses: actions/download-artifact@v2.1.0
+      - uses: actions/download-artifact@v3
         with:
           name: main-macos-latest
           path: main-macos-latest
-      - uses: actions/download-artifact@v2.1.0
+      - uses: actions/download-artifact@v3
         with:
           name: main-windows-latest
           path: main-windows-latest
