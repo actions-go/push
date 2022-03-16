@@ -6,7 +6,7 @@ require (
 	github.com/actions-go/toolkit v0.0.0-20220208211359-16b98579ec95
 	github.com/go-git/go-git/v5 v5.4.2
 	github.com/google/uuid v1.3.0
-	github.com/stretchr/testify v1.7.0
+	github.com/stretchr/testify v1.7.1
 )
 
 require (
