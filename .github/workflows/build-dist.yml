@@ -18,7 +18,7 @@ jobs:
     runs-on: ${{ matrix.runs-on }}
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-go@v2.2.0
+      - uses: actions/setup-go@v3.2.1
         with:
           go-version: '1.17'
       - run: go build -v -o dist/main
